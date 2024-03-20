@@ -460,8 +460,12 @@ plt.title('Burglary Crime Trend')
 Text(0.5, 1.0, 'Burglary Crime Trend')
 <Figure size 1000x800 with 0 Axes>
 
+
+
 sns.distplot(df_yr_freq['count'] ,color ='m')
 <Axes: xlabel='count', ylabel='Density'>
+
+
 
 plt.figsize=(40, 6)
 
@@ -472,11 +476,16 @@ df_yr_freq.plot(y='count', x='Year',marker='.', linestyle='-', linewidth=0.5,\
 plt.ylabel('Burglary Crime Count')
 Text(0, 0.5, 'Burglary Crime Count')
 
+
+
+
 The result above with the visualizations shows that Burglary crimes are gradually decreasing
 
 Metropolitan Police Service district reported the most Burglary crime
 
-5) Selection, application, and reasoning behind use of statistical analysis and multiple evaluation measures markdown, code, markdown, 20 Marks
+
+
+## Selection, application, and reasoning behind use of statistical analysis and multiple evaluation measures 
 
 As in the previous section,
 
