@@ -445,6 +445,7 @@ plt.title('Burglary Crime vs Reported By')
 Text(0.5, 1.0, 'Burglary Crime vs Reported By')
 <Figure size 1000x800 with 0 Axes>
 
+![output_38_3](https://github.com/kunlekuyoro/Big-Data-Analysis-Project/assets/126311485/7d7e113d-ef60-487d-ac56-320fe6a85011)
 
 
 plt.figure(figsize=(10,8))
