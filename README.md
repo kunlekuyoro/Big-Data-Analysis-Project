@@ -484,24 +484,22 @@ Text(0, 0.5, 'Burglary Crime Count')
 
 
 
-The result above with the visualizations shows that Burglary crimes are gradually decreasing
+# The result above with the visualizations shows that Burglary crimes are gradually decreasing
 
-Metropolitan Police Service district reported the most Burglary crime
+# Metropolitan Police Service district reported the most Burglary crime
+
+
 
 
 
 ## Selection, application, and reasoning behind use of statistical analysis and multiple evaluation measures 
 
-As in the previous section,
 
-Explain what you are trying to do (with references)
-Do the coding and include the results
-Explain your findings.
-1. Explanation
+# 1. Explanation
 
 The aim of this section is to review the dataset, Select burglary crimes and get the count across different reported regions then confirm by gaining insight from the deprivation dataset if the region with most burglary crimes are affluent areas or regarded as affluent areas by leveraging on the deprivation dataset "IMD SCORE". Also, confirm if there is a relationship between Burglary crimes and IMD Score(Level of deprivation).
 
-2. The Coding
+# 2. The Coding
 df_pyspark_affluent = df_crimes_Burglary.select('Reported by')
 df_pyspark_affluent .select('Reported by').distinct().show()
 [Stage 64:>                                                         (0 + 1) / 1]
@@ -587,7 +585,11 @@ City of London Police                   2812
 Name: Reported by, dtype: int64
 <Axes: xlabel='Reported by', ylabel='count'>
 
-#read the Deprivation dataset file into a DataFrame 
+![output_49_2](https://github.com/kunlekuyoro/Big-Data-Analysis-Project/assets/126311485/e0c1b081-f170-4fb6-8c22-833b56fba8d2)
+
+
+
+# read the Deprivation dataset file into a DataFrame 
 df_Deprivation = spark.read.csv("deprivation_with_hdr.gz", header="true",inferSchema="true")
 df_Deprivation.printSchema()
 root
@@ -630,6 +632,7 @@ root
  |-- Rank of IDACI (where 1 is most deprived): integer (nullable = true)
  |-- IDAOPI score: double (nullable = true)
  |-- Rank of IDAOPI (where 1 is most deprived): integer (nullable = true)
+ 
 
 df_Deprivation.columns
 ['LSOA CODE',
@@ -671,6 +674,8 @@ df_Deprivation.columns
  'Rank of IDACI (where 1 is most deprived)',
  'IDAOPI score',
  'Rank of IDAOPI (where 1 is most deprived)']
+
+ 
 # Select Only The Relevant Columns Then Display
 df_Deprivation_1=df_Deprivation.select('LSOA CODE','IMD SCORE',  'INCOME SCORE')
 df_Deprivation_1.show()
@@ -699,6 +704,7 @@ df_Deprivation_1.show()
 |E01000020|    34.19|        0.26|
 +---------+---------+------------+
 only showing top 20 rows
+
 
 # Joining the Deprivation And Allcrime Dataset
 Deprivation_Burglary= df_Deprivation_1.join(df_crimes_Burglary,on="LSOA code")
@@ -806,6 +812,7 @@ avg_deprivation_burglary_sorted.head(10)
 #Show the Reported by with the Avg Deprivation Score
 avg_deprivation_burglary_sorted_1 = avg_deprivation_burglary.orderBy(asc("Avg Deprivation Score"))
 avg_deprivation_burglary_sorted_1.show()
+
 [Stage 86:>                                                         (0 + 1) / 1]
 +--------------------+----------+---------------------+
 |         Reported by|Crime type|Avg Deprivation Score|
@@ -856,6 +863,9 @@ plt.ylabel('Avg Deprivation Score')
 plt.title('Average Deprivation Score by Reported By (Police Force)')
 plt.show()
 
+![output_61_0](https://github.com/kunlekuyoro/Big-Data-Analysis-Project/assets/126311485/91b73c9b-545b-4a5b-a492-220eba6e91a7)
+
+
 # Grouping by "Reported By" and counting the occurrences of "Burglary Crime type"
 
 burglary_count_by_reported_by = Deprivation_Burglary.groupBy("Reported by").agg(
@@ -870,6 +880,7 @@ avg_deprivation_burglary_count = burglary_count_by_reported_by.join(
 )
 #Sorting the DataFrame by "Burglary Count" in descending order
 avg_deprivation_burglary_count = avg_deprivation_burglary_count.orderBy(desc("Burglary Count"))
+
 # Show the avg_deprivation_burglary_count DataFrame Capturing Reported by, Burglary Count & Avg Deprivation Score
 avg_deprivation_burglary_count.show()
                                                                                 
@@ -950,25 +961,34 @@ plt.xlabel('Burglary Count')
 plt.ylabel('Avg Deprivation Score')
 plt.show()
 
+![output_69_0](https://github.com/kunlekuyoro/Big-Data-Analysis-Project/assets/126311485/f9f96f68-bf32-46b7-9f48-0745528eb8fc)
+
+
 # Calculate the correlation coefficient
 correlation_coefficient = pdf['Burglary Count'].corr(pdf['Avg Deprivation Score'])
 
 # Print the correlation coefficient
 print("Correlation Coefficient:", correlation_coefficient)
 Correlation Coefficient: 0.2673814749532026
+
 # Calculate the correlation between "Burglary Count" and "Avg Deprivation Score"
 correlation_matrix = pdf[['Burglary Count', 'Avg Deprivation Score']].corr()
+
 # Create the heatmap
 plt.figure(figsize=(8, 6))
 sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f')
 plt.title('Correlation Heatmap: Burglary Count vs. Avg Deprivation Score')
 plt.show()
 
-3. Findings
+![output_72_0](https://github.com/kunlekuyoro/Big-Data-Analysis-Project/assets/126311485/ad925886-f71a-409c-ae63-452cc3acbbc2)
+
+
+# 3. Findings
 
 The analysis carried out on the datasets revealed that areas under the 'Metropolitan Police Service district or jurisdiction have the highest reported burglary incidents and are known as a moderately deprived and non-ffluent areas based on the IMD SCORE of 25 from the deprivation dataset, while 'The City of London Police' had the least reported incidents. Also, the scatter plot and heatmap with correlation coefficient of 0.27 shows that "Burglary Count" and "Avg Deprivation Score" have a weak positive correlation. This indicates that there is a small tendency for regions with more incidents of burglary to have somewhat higher average deprivation scores.
 
-6) Detailed Analysis and consideration of the appropriateness of the solution for the initial problem markdown, 10 Marks
+
+## Detailed Analysis and consideration of the appropriateness of the solution for the initial problem 
 
 This is the discussion section of you report. You should critically consider the advantages, disadvantages, and limitations of the methods used.
 
@@ -978,23 +998,25 @@ When dealing with enormous amounts of data, only a few techniques and tools are 
 
 This project involves utilizing Azure as an Infrastructure as a Service and setting up an Ubuntu operating system. Additionally, various analytical tools and libraries such as Python, PySpark, Pandas, and Java are being installed to aid in the analysis of the data.
 
-Advantages
+# Advantages
 
 Manipulating vast amounts of data Cost-effectiveness. Secure storage Data visualisation is a powerful tool for displaying outcomes. Azure can be accessed using a computer with a standard configuration. A sizable community for problem resolution.
 
-Disadvatages
+# Disadvatages
 
 Although there is a free trial when an account is created, it is not free. Setting it up is difficult. The environment setup requires a user with minimum computer experience. All infrastructure will be impacted if the virtual machine has any problems. Only a reliable internet connection is required for cloud computing.
 
-Limitations
+# Limitations
 
 The requirement for a reliable internet connection and the difficulty of setup for new users
 
-7) Evaluation and Conclusion markdown, 10 Marks
+
+ 
+ # Evaluation and Conclusion 
 
 In the conclusion you should consider you initial aim and objectives and discuss your findings. Specifically you need to advice your client insurance company.
 
-Evaluation and conclusion
+# Evaluation and conclusion
 
 The study uses Python, PySpark, and Azure as the infrastructure as a service to analyse large amounts of crime data with two questions to answer;
 
@@ -1012,7 +1034,9 @@ This trend is consistent with reports from other sources that suggest crime rate
 
 Also, there is a weak positive correlation between "Burglary Count" and "Avg Deprivation Score" with a correlation coefficient of 0.27, this indicates that there is a small tendency for regions with more incidents of burglary to have somewhat higher average deprivation scores.
 
-Recommendation
+
+
+# Recommendation
 
 One effective recommendation for an insurance company dealing with a wide range of client information is to utilize cloud computing, which can securely store and process large amounts of data regardless of size. This technology can be accessed globally, as long as proper access is granted, and can facilitate data analysis to extract valuable insights about the company.
 
@@ -1026,11 +1050,11 @@ Consider offering insurance policies that cover damages resulting from burglarie
 
 Maintain a close eye on the pattern of reported burglary incidents in the dataset and make appropriate adjustments to the risk assessment and insurance rates.
 
-8) References and Citation markdown, 10 Marks
 
-References are essential at level 7. in this section you should give references for the papers/books you have cited in this assignment. Try to avoid using web pages as these are considered weak references as they are often not reviewed. References do not contribute to the word count.
+# References and Citation 
 
-References:
+
+# References:
 
 A. Gandomi and M. Haider, ‘‘Beyond the hype: Big data concepts, methods, and analytics,’’ Int. J. Inf. Manage., vol. 35, no. 2, pp. 137–144, Apr. 2015.
 
@@ -1058,7 +1082,12 @@ U. Thongsatapornwatana, ‘‘A survey of data mining techniques for analyzing c
 
 Z. Jia, C. Shen, Y. Chen, T. Yu, X. Guan, and X. Yi, ‘‘Big-data analysis of multi-source logs for anomaly detection on network-based system,’’ in Proc. 13th IEEE Conf. Autom. Sci. Eng. (CASE), Xi’an, China, Aug. 2017, pp. 1136–1141. A. Agresti, An Introduction to Categorical Data Analysis, 3rd ed. Hoboken, NJ, USA: Wiley, 2018.
 
-RESULTS
+
+
+
+
+
+# RESULTS
 
 1.Burglaries are not more in more affluent areras rather there are more burglaries in moderately deprived and non-affluent areas
 
