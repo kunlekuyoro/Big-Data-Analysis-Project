@@ -408,7 +408,8 @@ df_crimes_Burglary_Plot2.head(5)
  Row(crime type='Burglary', Year='2012', count=476006),
  Row(crime type='Burglary', Year='2013', count=455384),
  Row(crime type='Burglary', Year='2014', count=427448)]
-#Converting Burglary Crime Occurence DF to Pandas
+ 
+# Converting Burglary Crime Occurence DF to Pandas
 
 df_yr_freq = df_crimes_Burglary_Plot2.toPandas()
 df_yr_freq .head()
@@ -532,7 +533,8 @@ only showing top 20 rows
                                                                                 
 df_pyspark_affluent= df_pyspark_affluent.toPandas()
                                                                                 
-#Showing the Area With The Highest Burglary Crime Using The Burglary Crime Count And Reported By
+# Showing the Area With The Highest Burglary Crime Using The Burglary Crime Count And Reported By
+
 print(df_pyspark_affluent['Reported by'].value_counts())
 plt.figure(figsize = (15,6))
 plt.xticks(rotation = 90)
