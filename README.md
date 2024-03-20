@@ -460,11 +460,15 @@ plt.title('Burglary Crime Trend')
 Text(0.5, 1.0, 'Burglary Crime Trend')
 <Figure size 1000x800 with 0 Axes>
 
+![output_39_3](https://github.com/kunlekuyoro/Big-Data-Analysis-Project/assets/126311485/c9a80020-9ad1-4204-b68e-e4cbd1f699ec)
+
+
 
 
 sns.distplot(df_yr_freq['count'] ,color ='m')
 <Axes: xlabel='count', ylabel='Density'>
 
+![output_40_1](https://github.com/kunlekuyoro/Big-Data-Analysis-Project/assets/126311485/b4ff8906-e94a-47f8-b5de-72843fbf6894)
 
 
 plt.figsize=(40, 6)
@@ -476,6 +480,7 @@ df_yr_freq.plot(y='count', x='Year',marker='.', linestyle='-', linewidth=0.5,\
 plt.ylabel('Burglary Crime Count')
 Text(0, 0.5, 'Burglary Crime Count')
 
+![output_41_1](https://github.com/kunlekuyoro/Big-Data-Analysis-Project/assets/126311485/d091361e-e875-4717-8ee4-35c9636fd222)
 
 
 
